@@ -3,6 +3,7 @@
     var App = function() {
         this.orderId = window.location.hash.replace('#', '');
         this.getOrderUrl = '../mocks/getSingleOrder.json';
+        this.$statusBar = $('#status-bar');
         this.clientMarker;
         this.initMap();
         this.initPositionUpdate();
@@ -26,7 +27,7 @@
     };
 
     App.prototype.getOrderData = function() {
-        console.log('Updating the order position');
+        this.showStatusBar();
         $.ajax({
             url: this.getOrderUrl + this.orderId
 
@@ -47,6 +48,7 @@
             map: this.map,
             position: pos
         });
+        this.hideStatusBar();
     };
 
     App.prototype.setClientPosition = function(address) {
@@ -63,6 +65,15 @@
         }, this));
     };
 
+    App.prototype.showStatusBar = function() {
+        console.log('showing bar');
+        this.$statusBar.show();
+    };
+
+    App.prototype.hideStatusBar = function() {
+        console.log('hiding bar');
+        this.$statusBar.hide();
+    };
 
     $(document).ready(function() {
         var app = new App();
