@@ -1,61 +1,3 @@
- ../mocks/getAllOrders.json
-        google.maps.event.addDomListener(window, 'load', _.bind(this.initMapp, this));Singlethis.$statusBar = $('#status-bar');
-        this.clientMarker;
-        this.initMap();
-        this.initPositionUpdate(16this.        this.geocoder = new google.maps.Geocoder();
-
-    };
-
-    App.prototype.initPositionUpdate = function() {
-        this.getOrderData();
-        setInterval(_.bind(this.getOrderData, this), 20000);        this.showStatusBar();
-.then(_.bind(this.updateOrderPosition, this));
-    
-    App.prototype.updateOrderPosition = function () {
-        
-    };    $.ready(function (){ 
-        var app = new App();
-    });Map, this));
-    };
-
-    App.prototype.updateMap = function(data) {
-        if (!this.clientMarker) {
-            this.setClientPosition(data.deliveryAddress);
-        }
-        this.updateOrderPosition(data.position);
-};
-(position) {
-        var pos = new google.maps.LatLng(position.latitude, position.longitude);
-        var marker = new google.maps.Marker({
-            map: this.map,
-            position: pos
-        });
-        this.hideStatusBar();
-    };
-
-    App.prototype.setClientPosition = function(address) {
-        this.geocoder.geocode({
-            'address': address
-        }, _.bind(function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                this.map.setCenter(results[0].geometry.location);
-                this.clientMarker = new google.maps.Marker({
-                    map: this.map,
-                    position: results[0].geometry.location
-                });
-            }
-        }, this));
-    };
-
-    App.prototype.showStatusBar = function() {
-        console.log('showing bar');
-        this.$statusBar.show();
-    };
-
-    App.prototype.hideStatusBar = function() {
-        console.log('hiding bar');
-        this.$statusBar.hide();
-    };
 (function() {
 
     var App = function() {
@@ -130,7 +72,7 @@
 
     App.prototype.hideStatusBar = function() {
         console.log('hiding bar');
-        this.$statusBar.hide();
+        _.delay(_.bind(this.$statusBar.hide, this.$statusBar), 2000);
     };
 
     $(document).ready(function() {
