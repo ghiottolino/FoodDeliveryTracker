@@ -11,7 +11,7 @@
 
     App.prototype.initMap = function() {
         var mapOptions = {
-            center: new google.maps.LatLng(-34.397, 150.644),
+            center: new google.maps.LatLng(47.677950, 9.173238),
             zoom: 16,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -48,6 +48,9 @@
             map: this.map,
             position: pos
         });
+        if (this.clientMarker) {
+            this.zoomToMarkers(pos);
+        }
         this.hideStatusBar();
     };
 
@@ -73,6 +76,15 @@
     App.prototype.hideStatusBar = function() {
         console.log('hiding bar');
         _.delay(_.bind(this.$statusBar.hide, this.$statusBar), 2000);
+    };
+
+    App.prototype.zoomToMarkers = function(orderPosition) {
+        var LatLngList = [this.clientMarker.getPosition(), orderPosition];
+        var bounds = new google.maps.LatLngBounds();
+        for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+            bounds.extend(LatLngList[i]);
+        }
+        this.map.fitBounds(bounds);
     };
 
     $(document).ready(function() {
