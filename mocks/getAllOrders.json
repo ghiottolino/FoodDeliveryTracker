@@ -1,0 +1,29 @@
+[
+    {
+        "orderId": 123,
+        "position": {
+            "longitude" : 13123,
+            "longitude": 234234
+         },
+        "status": "processed",
+        "deliveryTime": 123123213
+    },
+    {
+        "orderId": 124,
+        "position": {
+            "longitude" : 13123,
+            "longitude": 234234
+         },
+        "status": "toBeDelivered",
+        "deliveryTime": 123123434
+    },
+    {
+        "orderId": 423,
+        "position": {
+            "longitude" : 13123,
+            "longitude": 234234
+         },
+        "status": "delivered",
+        "deliveryTime": 123123213
+    }
+]
