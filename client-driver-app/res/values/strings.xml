@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Driver App</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="start">Start Tracking</string>
+    <string name="stop">Stop Tracking</string>
+    <string name="orderIdPrefix">302</string>
+    
+</resources>
