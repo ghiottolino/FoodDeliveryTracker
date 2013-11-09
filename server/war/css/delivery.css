@@ -1,0 +1,24 @@
+html {
+    height: 100%
+}
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0
+}
+#map-canvas {
+    height: 100%
+}
+
+#status-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 30px;
+    width: 100%;
+    line-height: 30px;
+    background-color: gray;
+    text-align: center;
+    z-index: 1000;
+    display: none;
+}
