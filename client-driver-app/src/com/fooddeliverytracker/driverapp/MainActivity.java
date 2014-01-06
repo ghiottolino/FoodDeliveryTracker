@@ -2,11 +2,13 @@ package com.fooddeliverytracker.driverapp;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -29,6 +31,8 @@ public class MainActivity extends Activity {
 	private EditText order1Text;
 	private EditText order2Text;
 	private EditText order3Text;
+	private EditText address1Text;
+
 	private static boolean tracking = false;
 
 	private Button startTrackingButton;
@@ -38,7 +42,7 @@ public class MainActivity extends Activity {
 	private LocationClient mLocationClient;
 	private LocationCallback mLocationCallback = new LocationCallback();
 	private Location mLastLocation;
-	private final int LOCATION_UPDATES_INTERVAL = 10000;
+	private final int LOCATION_UPDATES_INTERVAL = 20000;
 	public static boolean isAppForeground = false;
 	private static final int ERROR_DIALOG_ON_CREATE_REQUEST_CODE = 4055;
 	private static final int ERROR_DIALOG_ON_RESUME_REQUEST_CODE = 4056;
@@ -49,8 +53,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		order1Text = (EditText) findViewById(R.id.orderNumber1);
-		order2Text = (EditText) findViewById(R.id.orderNumber2);
-		order3Text = (EditText) findViewById(R.id.orderNumber3);
+		address1Text = (EditText) findViewById(R.id.orderAddress1);
+		// order2Text = (EditText) findViewById(R.id.orderNumber2);
+		// order3Text = (EditText) findViewById(R.id.orderNumber3);
 
 		startTrackingButton = (Button) findViewById(R.id.start);
 		stopTrackingButton = (Button) findViewById(R.id.stop);
@@ -65,7 +70,7 @@ public class MainActivity extends Activity {
 
 		// start button
 		startTrackingButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Log.i(TAG, "Start tracking position for orders");
@@ -109,7 +114,15 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
+		return true;
+
+	};
+
 	private void init() {
 
 		if (mLocationClient == null) {
@@ -147,8 +160,7 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onDisconnected() {
-			Log.v(TAG,
-					"Location Client disconnected by the system");
+			Log.v(TAG, "Location Client disconnected by the system");
 		}
 
 		@Override
@@ -159,8 +171,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void onLocationChanged(Location location) {
 			if (location == null) {
-				Log.v(TAG,
-						"onLocationChanged: location == null");
+				Log.v(TAG, "onLocationChanged: location == null");
 				return;
 			}
 			// Add a marker iff location has changed.
@@ -175,23 +186,22 @@ public class MainActivity extends Activity {
 
 		private void handleLocation(Location location) {
 			// Update the mLocationStatus with the lat/lng of the location
-			Log.v(TAG,
-					"LocationChanged == @" + location.getLatitude() + ","
-							+ location.getLongitude());
+			Log.v(TAG, "LocationChanged == @" + location.getLatitude() + ","
+					+ location.getLongitude());
 			if (tracking) {
 				String order1Id = order1Text.getText().toString();
-				String order2Id = order2Text.getText().toString();
-				String order3Id = order3Text.getText().toString();
+				String address1 = address1Text.getText().toString();
+				// String order2Id = order2Text.getText().toString();
+				// String order3Id = order3Text.getText().toString();
 
 				// TODO : one request instead of 3
 				LocationTrackerService.getInstance().updateLocation(order1Id,
-						location);
-				LocationTrackerService.getInstance().updateLocation(order2Id,
-						location);
-				LocationTrackerService.getInstance().updateLocation(order3Id,
-						location);
+						address1, location);
+				// LocationTrackerService.getInstance().updateLocation(order2Id,
+				// location);
+				// LocationTrackerService.getInstance().updateLocation(order3Id,
+				// location);
 			}
-
 
 			mLastLocation = location;
 		}
@@ -256,6 +266,5 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
-
 
 }

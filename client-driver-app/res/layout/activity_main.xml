@@ -13,31 +13,40 @@
         android:id="@+id/orderNumber1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/orderIdPrefix"
-        android:inputType="number" />
+        android:inputType="number"
+        android:text="@string/orderIdPrefix" />
+
+    <EditText
+        android:id="@+id/orderAddress1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text="@string/addressSuffix" />
 
     <EditText
         android:id="@+id/orderNumber2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:text="@string/orderIdPrefix"
-        android:inputType="number" />
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/orderNumber3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:text="@string/orderIdPrefix"
-        android:inputType="number" />
+        android:visibility="gone" />
 
     <Button
-          android:id="@+id/start"
+        android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start" />
 
     <Button
-             android:id="@+id/stop"
+        android:id="@+id/stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/stop" />

@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import android.location.Location;
 import android.os.AsyncTask;
-import android.os.Looper;
 import android.util.Log;
 
 
@@ -28,6 +27,7 @@ public class LocationTrackerService {
 
 	private HttpClient appEngineCouchHttpClient;
 	private HttpPut appEngineHttpPost;
+	private boolean requestInProgress = false;
 
 
 	public static LocationTrackerService getInstance() {
@@ -50,20 +50,22 @@ public class LocationTrackerService {
 
 		@Override
 		protected String doInBackground(String... params) {
-			Looper.prepare();
+			if (requestInProgress)
+				return "OK";
+
 			try {
 				// Add your data
 				Date now = new Date();
 				JSONObject json = new JSONObject();
 				JSONObject positionJson = new JSONObject();
 
-				positionJson.put("latitude", Double.parseDouble(params[1]));
-				positionJson.put("longitude", Double.parseDouble(params[2]));
+				positionJson.put("latitude", Double.parseDouble(params[2]));
+				positionJson.put("longitude", Double.parseDouble(params[3]));
 
 				json.put("orderId", params[0]);
 
 				json.put("position", positionJson);
-				json.put("deliveryAddress", "Seilerstr. 7 Konstanz");
+				json.put("deliveryAddress", params[1]);
 				// json.put("deliveryTime", new Date());
 				json.put("status", "On its way");
 				
@@ -83,16 +85,19 @@ public class LocationTrackerService {
 				// Execute HTTP Post Request
 				try {
 
-
-				HttpResponse response = appEngineCouchHttpClient
+					requestInProgress = true;
+					HttpResponse response = appEngineCouchHttpClient
 						.execute(appEngineHttpPost);
 					Log.i(TAG, "HTTP Resp Code:"
 							+ response.getStatusLine().toString());
+
 					String temp = EntityUtils.toString(response.getEntity());
 					Log.i(TAG, "HTTP Resp Body:" + temp);
 
 				} catch (ClientProtocolException e) {
 					Log.e(TAG, e.toString());
+				} finally {
+					requestInProgress = false;
 				}
 				// // nothing
 
@@ -101,7 +106,6 @@ public class LocationTrackerService {
 				// nothing
 				Log.e(TAG, e.toString());
 			}
-			Looper.loop();
 			return "OK";
 		}
 	}
@@ -109,15 +113,16 @@ public class LocationTrackerService {
 	
 
 
-	public void updateLocation(String orderId, Location location) {
+	public void updateLocation(String orderId, String address, Location location) {
 		
 		// CouchDB
 		// if (!activity.equalsIgnoreCase(currentActivity)) {
 
 		if (orderId != null && !orderId.equals("") && orderId.length() == 6) {
+			// && !address.equals("") && !address.equals("78467 Konstanz")) {
 
 			PutJsonTask appEngine = new PutJsonTask();
-			appEngine.execute(new String[] { orderId,
+			appEngine.execute(new String[] { orderId, address,
 					Double.toString(location.getLatitude()),
 					Double.toString(location.getLongitude()) });
 		}
