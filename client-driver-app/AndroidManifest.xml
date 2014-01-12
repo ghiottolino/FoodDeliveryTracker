@@ -38,6 +38,13 @@
             android:name="com.fooddeliverytracker.driverapp.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        
+        <service
+            android:name="com.fooddeliverytracker.driverapp.DriverBackgroundLocationService"
+             
+            ></service>
     </application>
+    
+    
 
 </manifest>

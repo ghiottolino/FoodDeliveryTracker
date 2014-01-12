@@ -19,28 +19,29 @@ import android.util.Log;
 
 
 
-public class LocationTrackerService {
+public class DriverTrackerService {
 
-	private static LocationTrackerService instance;
+	private static DriverTrackerService instance;
 
-	private static final String TAG = "LocationTrackerService";
+	private static final String TAG = "DriverTrackerService";
 
 	private HttpClient appEngineCouchHttpClient;
 	private HttpPut appEngineHttpPost;
 	private boolean requestInProgress = false;
 
+	
 
-	public static LocationTrackerService getInstance() {
+	public static DriverTrackerService getInstance(String driverName) {
 		if (instance == null)
-			instance = new LocationTrackerService();
+			instance = new DriverTrackerService(driverName);
 		return instance;
 	}
 
-	public LocationTrackerService() {
+	public DriverTrackerService(String driverName) {
 
 		appEngineCouchHttpClient = new DefaultHttpClient();
 		appEngineHttpPost = new HttpPut(
-				"http://1.fooddeliverytracker.appspot.com/resources/orders/1");
+				"http://fooddeliverytracker.appspot.com/resources/drivers/"+driverName);
 
 	}
 	
@@ -59,15 +60,13 @@ public class LocationTrackerService {
 				JSONObject json = new JSONObject();
 				JSONObject positionJson = new JSONObject();
 
-				positionJson.put("latitude", Double.parseDouble(params[2]));
-				positionJson.put("longitude", Double.parseDouble(params[3]));
+				positionJson.put("latitude", Double.parseDouble(params[1]));
+				positionJson.put("longitude", Double.parseDouble(params[2]));
 
-				json.put("orderId", params[0]);
-
+				json.put("name", params[0]);
 				json.put("position", positionJson);
-				json.put("deliveryAddress", params[1]);
 				// json.put("deliveryTime", new Date());
-				json.put("status", "On its way");
+				json.put("lastUpdated", new Date().getTime());
 				
 				Log.i(TAG, json.toString());
 				StringEntity se = new StringEntity(json.toString());
@@ -113,20 +112,20 @@ public class LocationTrackerService {
 	
 
 
-	public void updateLocation(String orderId, String address, Location location) {
+
+	
+
+	public void updateDriverLocation(String driverName, Location location) {
 		
 
-		if (orderId != null && !orderId.equals("") && orderId.length() == 6) {
-			// && !address.equals("") && !address.equals("78467 Konstanz")) {
+		if (driverName != null && !driverName.equals("")) {
 
 			PutJsonTask appEngine = new PutJsonTask();
-			appEngine.execute(new String[] { orderId, address,
+			appEngine.execute(new String[] { driverName,
 					Double.toString(location.getLatitude()),
 					Double.toString(location.getLongitude()) });
 		}
 
 	}
-	
-	
 
 }

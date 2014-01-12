@@ -9,36 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <EditText
-        android:id="@+id/orderNumber1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:text="@string/orderIdPrefix" />
-
-    <EditText
-        android:id="@+id/orderAddress1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:text="@string/addressSuffix" />
-
-    <EditText
-        android:id="@+id/orderNumber2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:text="@string/orderIdPrefix"
-        android:visibility="gone" />
-
-    <EditText
-        android:id="@+id/orderNumber3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:text="@string/orderIdPrefix"
-        android:visibility="gone" />
-
     <Button
         android:id="@+id/start"
         android:layout_width="wrap_content"
